@@ -1,0 +1,53 @@
+<!-- Button to Open the Modal -->
+<button class="mb-3 mr-4 btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#DELETE_USER_MODAL">
+    Delete
+</button>
+
+<!-- The Modal -->
+<div class="modal" id="DELETE_USER_MODAL">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <p class="badge bg-success" *ngIf="successMessage != null">{{successMessage}}</p>
+            <p class="badge bg-danger" *ngIf="errorMessage != null">{{errorMessage}}</p>
+            <p class="badge bg-info text-dark" *ngIf="infoMessage != null">{{infoMessage}}</p>
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete message</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <h2>Confirmation Required</h2>
+                <h4> Copy the user Id if you have not copied it.
+                    Next to the SN column on the table is a copy button, copy the user Id and paste it in this input for
+                    confirmation.
+                    Clicking on the delete button will delete this message permanently from record.</h4>
+
+                <form [formGroup]="delForm" (ngSubmit)="deleteContact()">
+                    <mat-form-field appearance="outline">
+                        <mat-label>4jri43uf93048fu3ojf943u4f3</mat-label>
+                        <input matInput type='text' formControlName="userId" name='userId'>
+                        <mat-error *ngIf="delForm.get('userId')?.hasError('minLength')">
+                            Id should be at least 16 characters.
+                        </mat-error>
+                        <mat-error *ngIf="delForm.get('userId')?.hasError('required')">
+                            Id is required
+                        </mat-error>
+                    </mat-form-field>
+
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button (click)="deleteContact()" type="submit" class="btn btn-danger text-white">Delete
+                </button>
+                <button type="button" class="btn btn-info text-white" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

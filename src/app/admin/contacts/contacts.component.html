@@ -1,0 +1,51 @@
+<div class="container mt-3">
+    <h2>Welcome back {{token?.data?.username}}</h2>
+    <br>
+    <p class="badge bg-success" *ngIf="successMessage != null">{{successMessage}}</p>
+    <br>
+    <p class="badge bg-danger" *ngIf="errorMessage != null">{{errorMessage}}</p>
+    <br>
+    <p class="badge bg-info text-dark" *ngIf="infoMessage != null">{{infoMessage}}</p>
+    <br>
+    <span *ngIf="IsCopied" class="copyMessage badge bg-success p-2">Contact {{value}} Copied</span>
+    <br><br>
+
+    <table class="table table-bordered" *ngIf="contacts != null">
+        <h4 class="badge bg-danger" *ngIf="IsDeleting">Deleting message...</h4>
+
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let contact of contacts, let i = index">
+
+                <td style="width: 4rem;">{{i+1}}<span style="margin-left: 0.5rem;"><i
+                            (click)="copyText(contact._id!, 'id')" class="fa-regular fa-copy"></i></span> </td>
+                <td style="width: 5rem;">{{contact?.name}}</td>
+                <td style="width: 15rem;">{{contact?.email}} <span><i (click)="copyText(contact.email, 'email')"
+                            class="fa-regular fa-copy"></i></span>
+                </td>
+                <td style="width: 10rem;">{{contact?.subject}}
+                </td>
+                <td style="width: 31rem;">{{contact?.message}}</td>
+                <td style="width: 7rem;" class="flex-column d-flex">
+                    <hms-reply-message [userEmail]="contactUserEmail" />
+
+                    <hms-delete-contact [userEmail]="contactUserEmail" />
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+    <mat-paginator [length]="100" [pageSize]="limit" [pageSizeOptions]="[10, 25, 100]" (page)="pageChanged($event)">
+    </mat-paginator>
+</div>
+<div *ngIf="IsFetching" id="preloader"></div>
